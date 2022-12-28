@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase.utils.js';
 import FormInput from "../form-input/form-input.component.js";
 import Button from "../button/button.component.js";
-import { SignUpContainer, H2Container, SubTitle, Form } from './sign-up-form.styles';
+import './sign-up-form.styles.scss';
 
 const defaultFormFields = {
   displayName: "",
@@ -21,6 +21,7 @@ const SignUpForm = () => {
 
   const handleChange = (event) => { 
     const {name, value} = event.target;
+    
     setFormFields({ ...formFields, [name]: value })
   };
 
@@ -34,22 +35,26 @@ const SignUpForm = () => {
     try {
       const {user} = await createAuthUserWithEmailAndPassword(email, password);
       await createUserDocumentFromAuth(user, { displayName })
-      
       resetFormFields();
     } catch(error) {
+      if (error.code === 'auth/email-already-in-user') {
+        alert('Email already in use!');
+      }
+      console.log({error});
       switch (error.code) {
         case "auth/email-already-in-user": { alert(error.message); break;}
         case 'auth/weak-password': { alert(error.message); break;}
-        default: { console.error(error.message); }
+        default: { alert(error.message); }
       }
+      console.log(error);
     }
   }
 
   return (
-    <SignUpContainer>
-      <H2Container>I do not have an account</H2Container>
-      <SubTitle>Sign up with your emai and password</SubTitle>
-      <Form onSubmit={handleSubmit}>
+    <div className="sign-up-container">
+      <h2>I do not have an account</h2>
+      <span>Sign up with your emai and password</span>
+      <form onSubmit={handleSubmit}>
         <FormInput 
           required 
           label="Disply Name" 
@@ -63,7 +68,6 @@ const SignUpForm = () => {
           label="Email" 
           type="email" 
           name="email" 
-          autoComplete="email"
           onChange={handleChange} 
           value={email}/>
 
@@ -72,7 +76,6 @@ const SignUpForm = () => {
           label="Password" 
           type="password" 
           name="password" 
-          autoComplete="password"
           onChange={handleChange} 
           value={password}/>
 
@@ -81,13 +84,12 @@ const SignUpForm = () => {
           label="Confirm Password" 
           type="password" 
           name="confirmPassword" 
-          autoComplete="confirmPassword"
           onChange={handleChange} 
           value={confirmPassword}/>
 
-        <Button type="submit">Sign Up</Button>
-      </Form>
-    </SignUpContainer>
+        <Button type="submit">Sing Up</Button>
+      </form>
+    </div>
   );
 }
 
