@@ -43,8 +43,10 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
-export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
+export const signInWithGooglePopup = () => 
+  signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () => 
+  signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
 
@@ -71,16 +73,6 @@ export const getCategoriesAndDocuments = async () => {
   return querySnapshot.docs.map((docSnapshot) => {
     return docSnapshot.data()
   });
-
-/*
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const {title, items } = docSnapshot.data();
-    acc[title.toLowerCase()] = items;
-
-    return acc;
-  }, {});*/
-
- // return categoryMap;
 }
 
 export const createUserDocumentFromAuth = async (userAuth, otherData) => {
@@ -103,7 +95,7 @@ export const createUserDocumentFromAuth = async (userAuth, otherData) => {
     }
   }
 
-  return userDocRef;  
+  return userSnapshot;  
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => { 
@@ -124,4 +116,16 @@ export const signOutUser = async () => {
 
 export const onAuthStateChangedListener = (callback) => { 
   return onAuthStateChanged(auth, callback)
+}
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth, 
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject);
+  })
 }
