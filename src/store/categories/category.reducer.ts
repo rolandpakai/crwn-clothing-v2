@@ -9,8 +9,8 @@ import {
 
 export type CategoriesSate = {
   readonly categories: Category[];
-  isLoading: boolean;
-  error: Error | null;
+  readonly isLoading: boolean;
+  readonly error: Error | null;
 }
 
 export const CATEGORIES_INITIAL_STATE: CategoriesSate = {
@@ -33,8 +33,8 @@ export const categoriesReducer = (
     if(fetchCategoriesSuccess.match(action)) {
       return {      
         ...state,
-        categories: action.payload,
         isLoading: false, 
+        categories: action.payload,
       }
     }
 
