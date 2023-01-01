@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent, FC } from "react";
 import { useDispatch } from "react-redux";
-
+ 
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { SignUpContainer, ButtonContainer, H2Container, SubTitle, Form } from './sign-in-form.styles';
@@ -11,7 +11,7 @@ const defaultFormFields = {
   password: "",
 }
 
-const SignInForm = () => { 
+const SignInForm: FC<void> = () => { 
   const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
@@ -20,22 +20,30 @@ const SignInForm = () => {
     setFormFields(defaultFormFields)
    }
 
-  const handleChange = (event) => { 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => { 
     const {name, value} = event.target;
     setFormFields({ ...formFields, [name]: value })
   };
 
-  const handleSubmit = async (event) => {
+  type AuthError = {
+    code: string;
+    message: string;
+  }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
       dispatch(emailSignInStart(email, password));
       resetFormFields();
-    } catch(error) {
-      switch (error.code) {
-        case "auth/wrong-password": { alert(error.message); break;}
-        case 'auth/user-not-found': { alert(error.message); break;}
-        default: { console.error(error.message); }
+    } catch(e) {
+      let error = e as AuthError;
+      if(error) {
+        switch (error.code) {
+          case "auth/wrong-password": { alert(error.message); break;}
+          case 'auth/user-not-found': { alert(error.message); break;}
+          default: { console.error(error.message); }
+        }
       }
     }
   }
