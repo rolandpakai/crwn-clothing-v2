@@ -12,7 +12,7 @@ const defaultFormFields = {
   password: "",
 }
 
-const SignInForm: FC<void> = () => { 
+const SignInForm: FC<{}> = () => { 
   const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
