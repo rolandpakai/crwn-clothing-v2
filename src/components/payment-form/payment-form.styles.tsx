@@ -6,7 +6,7 @@ export const PaymentFromContainer = styled.div`
   height: 300px;
   display: flex;
   flex-direction: column;
-  alig-items: center;
+  align-items: center;
   justify-content: center;
 `;
 
