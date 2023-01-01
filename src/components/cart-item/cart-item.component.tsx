@@ -1,6 +1,12 @@
+import { FC } from 'react';
 import {CartItemContainer, ItemDetails, CartItemImg, ItemName, ItemPrice} from './cart-item.styles';
+import { CartItem as TCartItem } from '../../store/cart/cart.types';
 
-const CartItem = ({cartItem}) => {
+type CartItemProps = {
+  cartItem: TCartItem;
+};
+
+const CartItem: FC<CartItemProps> = ({cartItem}) => {
   const { name, imageUrl, price, quantity } = cartItem;
 
   return (
@@ -8,7 +14,7 @@ const CartItem = ({cartItem}) => {
       <CartItemImg src={imageUrl} alt={name}/>
       <ItemDetails>
         <ItemName className="name">{name}</ItemName>
-        <ItemPrice className="price">{quantity} x {price}</ItemPrice>
+        <ItemPrice className="price">{quantity} x ${price}</ItemPrice>
       </ItemDetails>
     </CartItemContainer>
   )
