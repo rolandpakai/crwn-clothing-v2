@@ -1,6 +1,7 @@
 import { useState, FormEvent, ChangeEvent, FC } from "react";
 import { useDispatch } from "react-redux";
- 
+import { AuthError, AuthErrorCodes } from 'firebase/auth'
+
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import { SignUpContainer, ButtonContainer, H2Container, SubTitle, Form } from './sign-in-form.styles';
@@ -25,11 +26,6 @@ const SignInForm: FC<void> = () => {
     setFormFields({ ...formFields, [name]: value })
   };
 
-  type AuthError = {
-    code: string;
-    message: string;
-  }
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -40,8 +36,8 @@ const SignInForm: FC<void> = () => {
       let error = e as AuthError;
       if(error) {
         switch (error.code) {
-          case "auth/wrong-password": { alert(error.message); break;}
-          case 'auth/user-not-found': { alert(error.message); break;}
+          case AuthErrorCodes.INVALID_PASSWORD: { alert(error.message); break;}
+          case AuthErrorCodes.NULL_USER: { alert(error.message); break;}
           default: { console.error(error.message); }
         }
       }
