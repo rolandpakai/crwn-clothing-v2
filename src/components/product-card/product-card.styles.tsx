@@ -7,12 +7,14 @@ export const ProductCartContainer = styled.div`
   height: 350px;
   align-items: center;
   position: relative;
+
   img {
     width: 100%;
     height: 95%;
     object-fit: cover;
     margin-bottom: 5px;
   }
+
   button {
     width: 80%;
     opacity: 0.7;
@@ -20,6 +22,7 @@ export const ProductCartContainer = styled.div`
     top: 255px;
     display: none;
   }
+
   &:hover {
     img {
       opacity: 0.8;
@@ -29,6 +32,29 @@ export const ProductCartContainer = styled.div`
       display: flex;
     }
   }
+
+  @media screen and (max-width: 800px) {
+    
+    button {
+      min-width: unset;
+      opacity: 0.9;
+      position: absolute;
+      display: block;
+      padding: 0 10px;
+    }
+    
+    &:hover {
+      img {
+        opacity: unset;
+      }
+      
+      button {
+        opacity: unset;
+        display: flex;
+      }
+    }
+  }
+}
 `;
 
 export const Footer = styled.div`
