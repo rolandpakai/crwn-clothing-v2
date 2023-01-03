@@ -34,6 +34,7 @@ export const ProductCartContainer = styled.div`
   }
 
   @media screen and (max-width: 800px) {
+    width: 40vw;
     
     button {
       min-width: unset;
@@ -53,6 +54,10 @@ export const ProductCartContainer = styled.div`
         display: flex;
       }
     }
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 100%;
   }
 }
 `;

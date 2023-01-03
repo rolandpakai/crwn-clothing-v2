@@ -24,8 +24,14 @@ export const CategoryPreviewDiv = styled.div`
   row-gap: 50px;
 
   @media screen and (max-width: 800px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+    row-gap: 25px;
+  }
+
+  @media screen and (max-width: 400px) {
+    grid-template-columns: 1fr;
     column-gap: 10px;
-    row-gap: 40px;
+    row-gap: 20px;
   }
 `;
